@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>브루밍 카페 | 서울 마포구 감성 카페</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fbf6ec;
+      --cream-deep: #f2e7d5;
+      --beige: #dfc8a8;
+      --sand: #c8aa7e;
+      --green: #173c32;
+      --green-soft: #31594d;
+      --moss: #70806b;
+      --ink: #1f2a25;
+      --muted: #756f63;
+      --paper: rgba(255, 252, 246, 0.92);
+      --line: rgba(23, 60, 50, 0.14);
+      --shadow: 0 18px 45px rgba(23, 60, 50, 0.13);
+      --hero-image: url("https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=85");
+      --cta-image: url("https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1600&q=85");
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: "Noto Sans KR", system-ui, sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px clamp(18px, 5vw, 72px);
+      color: #fffaf1;
+      background: rgba(23, 60, 50, 0);
+      transition: background 300ms ease, box-shadow 300ms ease, padding 300ms ease, color 300ms ease;
+    }
+
+    .site-header.scrolled {
+      padding-top: 13px;
+      padding-bottom: 13px;
+      color: var(--green);
+      background: rgba(251, 246, 236, 0.94);
+      box-shadow: 0 10px 30px rgba(23, 60, 50, 0.1);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      font-size: clamp(19px, 2vw, 24px);
+      font-weight: 900;
+      letter-spacing: 0;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeSlideUp 720ms ease forwards;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2.6vw, 34px);
+      font-size: 15px;
+      font-weight: 800;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeSlideUp 720ms ease 120ms forwards;
+    }
+
+    .nav a {
+      opacity: 0.9;
+      transition: opacity 160ms ease;
+    }
+
+    .nav a:hover {
+      opacity: 1;
+    }
+
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      color: #fffaf1;
+      background:
+        linear-gradient(90deg, rgba(14, 37, 31, 0.88), rgba(14, 37, 31, 0.48), rgba(14, 37, 31, 0.1)),
+        var(--hero-image) center / cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 24vh;
+      background: linear-gradient(180deg, rgba(251, 246, 236, 0), var(--cream));
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1140px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 130px 0 84px;
+    }
+
+    .hero-kicker,
+    .hero-title,
+    .hero-copy,
+    .hero-actions {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: fadeSlideUp 780ms ease forwards;
+    }
+
+    .hero-title {
+      animation-delay: 120ms;
+    }
+
+    .hero-copy {
+      animation-delay: 240ms;
+    }
+
+    .hero-actions {
+      animation-delay: 360ms;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      margin: 0 0 18px;
+      border: 1px solid rgba(251, 246, 236, 0.36);
+      border-radius: 999px;
+      background: rgba(251, 246, 236, 0.1);
+      color: #f8dfb9;
+      font-size: 14px;
+      font-weight: 900;
+      backdrop-filter: blur(10px);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    .hero-title {
+      max-width: 780px;
+      margin-bottom: 22px;
+      font-size: clamp(48px, 8.5vw, 104px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin-bottom: 34px;
+      color: rgba(255, 250, 241, 0.9);
+      font-size: clamp(17px, 2.2vw, 22px);
+      font-weight: 500;
+    }
+
+    .hero-actions,
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-weight: 900;
+      transition: transform 170ms ease, background 170ms ease, color 170ms ease, border-color 170ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      color: var(--green);
+      background: #f8dfb9;
+      box-shadow: 0 15px 34px rgba(248, 223, 185, 0.24);
+    }
+
+    .button-primary:hover {
+      background: #ffe8c5;
+    }
+
+    .button-outline {
+      color: #fffaf1;
+      border-color: rgba(255, 250, 241, 0.58);
+      background: rgba(255, 250, 241, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .pulse {
+      animation: pulse 1800ms ease-in-out infinite;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      padding: clamp(66px, 9vw, 118px) clamp(18px, 5vw, 72px);
+    }
+
+    .wrap {
+      width: min(1140px, 100%);
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      margin-bottom: 10px;
+      color: var(--green-soft);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      color: var(--green);
+      font-size: clamp(31px, 4vw, 52px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 440px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .menu-card {
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(23, 60, 50, 0.08);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(23, 60, 50, 0.28);
+      box-shadow: 0 22px 50px rgba(23, 60, 50, 0.18);
+    }
+
+    .menu-card small {
+      color: var(--moss);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .menu-card h3 {
+      margin: 12px 0 10px;
+      color: var(--green);
+      font-size: 23px;
+      line-height: 1.25;
+    }
+
+    .menu-card p {
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .price {
+      color: var(--green-soft);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .mood {
+      background:
+        linear-gradient(180deg, rgba(242, 231, 213, 0.8), rgba(251, 246, 236, 0.96)),
+        #f4ead9;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.7fr);
+      gap: clamp(28px, 6vw, 72px);
+      align-items: center;
+    }
+
+    .mood-copy p {
+      max-width: 660px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .quote-panel {
+      padding: clamp(26px, 4vw, 38px);
+      border: 1px solid rgba(23, 60, 50, 0.18);
+      border-radius: 8px;
+      background: rgba(255, 252, 246, 0.74);
+      box-shadow: var(--shadow);
+    }
+
+    .quote-panel p {
+      margin-bottom: 18px;
+      color: var(--green);
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 900;
+      line-height: 1.28;
+    }
+
+    .quote-panel span {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .info-card {
+      min-height: 164px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffdf8;
+      box-shadow: 0 12px 30px rgba(23, 60, 50, 0.08);
+    }
+
+    .info-card span {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--moss);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .info-card strong {
+      display: block;
+      color: var(--green);
+      font-size: clamp(20px, 2vw, 25px);
+      line-height: 1.35;
+    }
+
+    .cta {
+      color: #fffaf1;
+      background:
+        linear-gradient(90deg, rgba(23, 60, 50, 0.94), rgba(23, 60, 50, 0.72)),
+        var(--cta-image) center / cover;
+    }
+
+    .cta-box {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .cta h2 {
+      max-width: 700px;
+      margin-bottom: 16px;
+      color: #fffaf1;
+    }
+
+    .cta p {
+      max-width: 560px;
+      margin-bottom: 0;
+      color: rgba(255, 250, 241, 0.82);
+      font-size: 17px;
+    }
+
+    .cta .section-kicker {
+      color: #f8dfb9;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 28px clamp(18px, 5vw, 72px);
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: #fffaf1;
+    }
+
+    footer strong {
+      color: var(--green);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 760ms ease, transform 760ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(248, 223, 185, 0.42);
+      }
+
+      50% {
+        transform: scale(1.035);
+        box-shadow: 0 0 0 13px rgba(248, 223, 185, 0);
+      }
+    }
+
+    @media (max-width: 1020px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .mood-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .location-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-actions {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .site-header {
+        align-items: flex-start;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 100svh;
+        background-position: 56% center;
+      }
+
+      .hero-inner {
+        width: min(100% - 32px, 1140px);
+        padding-top: 108px;
+        padding-bottom: 74px;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 14px;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .menu-card {
+        min-height: 190px;
+      }
+
+      footer {
+        display: block;
+      }
+
+      footer p {
+        margin: 8px 0 0;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero-actions,
+      .cta-actions {
+        display: grid;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .info-card,
+      .menu-card,
+      .quote-panel {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="#home">브루밍 카페</a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="#menu">메뉴</a>
+      <a href="#mood">분위기</a>
+      <a href="#location">오시는 길</a>
+      <a href="#contact">전화</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <p class="hero-kicker">서울 마포구 감성 카페</p>
+      <h1 class="hero-title">브루밍 카페</h1>
+      <p class="hero-copy">크림빛 오후와 딥그린의 고요함이 머무는 곳. 커피 한 잔이 하루의 결을 바꿉니다.</p>
+      <div class="hero-actions">
+        <a class="button button-primary pulse" href="tel:010-0000-0000">전화 문의</a>
+        <a class="button button-outline" href="#menu">메뉴 보기</a>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="reveal" id="menu">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">SIGNATURE MENU</p>
+            <h2>오늘의 여유를 완성하는 메뉴</h2>
+          </div>
+          <p>깊은 커피 향과 부드러운 디저트를 균형 있게 준비했습니다.</p>
+        </div>
+
+        <div class="menu-grid">
+          <article class="menu-card reveal">
+            <div>
+              <small>COFFEE</small>
+              <h3>아메리카노</h3>
+              <p>깔끔한 산미와 고소한 끝맛이 살아 있는 기본의 한 잔입니다.</p>
+            </div>
+            <div class="price">4,500원</div>
+          </article>
+
+          <article class="menu-card reveal">
+            <div>
+              <small>LATTE</small>
+              <h3>카페라떼</h3>
+              <p>진한 에스프레소와 부드러운 우유가 차분하게 어우러집니다.</p>
+            </div>
+            <div class="price">5,000원</div>
+          </article>
+
+          <article class="menu-card reveal">
+            <div>
+              <small>DESSERT</small>
+              <h3>딸기케이크</h3>
+              <p>상큼한 딸기와 크림의 밀도가 좋은 시그니처 디저트입니다.</p>
+            </div>
+            <div class="price">7,000원</div>
+          </article>
+
+          <article class="menu-card reveal">
+            <div>
+              <small>BRUNCH</small>
+              <h3>크로플</h3>
+              <p>바삭한 결 위에 은은한 단맛을 더한 오후의 인기 메뉴입니다.</p>
+            </div>
+            <div class="price">6,500원</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="mood reveal" id="mood">
+      <div class="wrap mood-grid">
+        <div class="mood-copy">
+          <p class="section-kicker">MOOD</p>
+          <h2>조용히 피어나는 커피의 시간</h2>
+          <p>
+            브루밍 카페는 베이지 톤의 온기와 딥그린 포인트가 어우러진 공간입니다.
+            창가에 머무는 빛, 낮게 흐르는 음악, 천천히 식어가는 커피까지 편안한 리듬으로 채웠습니다.
+          </p>
+        </div>
+        <div class="quote-panel reveal">
+          <p>“좋은 하루는 때로 한 잔의 온도에서 시작됩니다.”</p>
+          <span>Blooming Cafe, Mapo</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal" id="location">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">LOCATION</p>
+            <h2>오시는 길</h2>
+          </div>
+          <p>서울 마포구에서 오전 9시부터 오후 10시까지 운영합니다.</p>
+        </div>
+
+        <div class="location-grid">
+          <article class="info-card reveal">
+            <span>주소</span>
+            <strong>서울 마포구</strong>
+          </article>
+
+          <article class="info-card reveal">
+            <span>전화</span>
+            <strong>010-0000-0000</strong>
+          </article>
+
+          <article class="info-card reveal">
+            <span>영업시간</span>
+            <strong>오전 9시 ~ 오후 10시</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta reveal" id="contact">
+      <div class="wrap cta-box">
+        <div>
+          <p class="section-kicker">CONTACT</p>
+          <h2>오늘의 커피 자리를 문의하세요.</h2>
+          <p>좌석, 포장, 단체 주문 문의는 전화로 빠르게 안내해 드립니다.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="button button-primary pulse" href="tel:010-0000-0000">010-0000-0000</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>브루밍 카페</strong>
+    <p>서울 마포구 · 오전 9시 ~ 오후 10시</p>
+  </footer>
+
+  <script>
+    const header = document.getElementById("siteHeader");
+
+    const syncHeader = () => {
+      header.classList.toggle("scrolled", window.scrollY > 24);
+    };
+
+    syncHeader();
+    window.addEventListener("scroll", syncHeader, { passive: true });
+
+    const revealItems = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.16,
+        rootMargin: "0px 0px -8% 0px"
+      }
+    );
+
+    revealItems.forEach((item, index) => {
+      item.style.transitionDelay = `${Math.min(index * 80, 360)}ms`;
+      observer.observe(item);
+    });
+  </script>
+</body>
+</html>
